@@ -8,8 +8,10 @@ import (
 )
 
 func GetProduct(c *gin.Context) {
+	// Irei pegar o id escrito na URL
 	id := c.Param("id")
 
+	// Converto o id para inteiro , e retorno erro se tiver algo fora do padrao
 	newId, err := strconv.Atoi(id)
 	if err != nil {
 		c.JSON(400, gin.H{
@@ -18,10 +20,11 @@ func GetProduct(c *gin.Context) {
 
 		return
 	}
-
+	// crio a conexao com o banco
 	db := database.GetDatabase()
 
 	var product models.Product
+	// Faço uma busca no banco com o id, e retorno na struct com os devidos campos
 	err = db.First(&product, newId).Error
 	if err != nil {
 		c.JSON(400, gin.H{
@@ -31,6 +34,7 @@ func GetProduct(c *gin.Context) {
 		return
 	}
 
+	// retorna na pagina com um json da struct
 	c.JSON(200, product)
 }
 
@@ -114,7 +118,7 @@ func DeleteProduct(c *gin.Context) {
 	c.Status(200)
 }
 
-func ShowProducts(c *gin.Context) {
+func GetAllProducts(c *gin.Context) {
 	db := database.GetDatabase()
 
 	var products []models.Product

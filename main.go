@@ -3,17 +3,15 @@ package main
 import (
 	"delivery/database"
 	"delivery/server"
-	"fmt"
 )
 
-func main(){
-	go database.RunDb()
-
+func main() {
 	serv := server.NewServer()
-
-	x :=server.GetApplication()
-
-	fmt.Println(x.Services.Db.Ports[0])
-	serv.Run()
+	Started(serv)
 }
 
+func Started(serv server.Server) {
+	go database.RunDb(server.GetPort())
+	serv.Run()
+
+}
