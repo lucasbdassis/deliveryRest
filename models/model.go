@@ -21,5 +21,5 @@ type Product struct {
 }
 
 type Pasta struct {
-	Traditional []string `json:"traditional"`
+	Traditional *[]string `json:"traditional"`
 }

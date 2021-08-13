@@ -7,6 +7,8 @@ import (
 	"strconv"
 )
 
+
+
 func GetProduct(c *gin.Context) {
 	// Irei pegar o id escrito na URL
 	id := c.Param("id")

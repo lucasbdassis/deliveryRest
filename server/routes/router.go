@@ -13,10 +13,14 @@ func ConfigRoutes(router *gin.Engine) *gin.Engine {
 			product.GET("/:id", controllers.GetProduct)
 			product.GET("/", controllers.GetAllProducts)
 			product.POST("/", controllers.CreateProduct)
-			product.POST("/login", controllers.LoginPost)
 			product.PUT("/", controllers.UpdateProduct)
 			product.DELETE("/:id", controllers.DeleteProduct)
 
+		}
+		login := main.Group("")
+		{
+			login.POST("/login", controllers.LoginPost)
+			login.POST("/register", controllers.Register)
 		}
 	}
 	return router

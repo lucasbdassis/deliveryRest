@@ -4,6 +4,7 @@ import (
 	"delivery/database/migrations"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 	"log"
 	"time"
 )
@@ -12,7 +13,7 @@ var db *gorm.DB
 
 func RunDb(x string) {
 
-	database, err := gorm.Open(postgres.Open(x), &gorm.Config{})
+	database, err := gorm.Open(postgres.Open(x), &gorm.Config{Logger: logger.Default.LogMode(logger.Info)})
 	if err != nil {
 		log.Fatal("error: ", err)
 	}

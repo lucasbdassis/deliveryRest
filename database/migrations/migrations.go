@@ -7,6 +7,6 @@ import (
 
 func RunMigrations(db *gorm.DB) {
 	// ele da um migrate com o banco de dados
-	db.AutoMigrate(models.Product{})
+	db.AutoMigrate(&models.Product{},&models.Login{})
 
 }
