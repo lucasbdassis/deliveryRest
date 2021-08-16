@@ -4,10 +4,28 @@ import (
 	"delivery/database"
 	"delivery/models"
 	"fmt"
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm/utils"
 	"net/http"
 )
+
+func LoginGet ( c *gin.Context){
+
+	session := sessions.Default(c)
+	fmt.Println("session: ",session)
+
+	v := session.Get("count")
+	if v == 4 {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"status": "NonAuthorized"})
+		return
+
+	}
+	fmt.Printf("%T",v)
+
+	c.JSON(200, gin.H{"Status": "Authorized"})
+
+}
 
 func LoginPost(c *gin.Context) {
 	var (
@@ -30,14 +48,16 @@ func LoginPost(c *gin.Context) {
 		})
 		return
 	}
-	fmt.Println("123", err)
 
 	if !utils.AssertEqual(jsonDb.User, json.User) || !utils.AssertEqual(jsonDb.Password, json.Password) {
 		c.JSON(http.StatusUnauthorized, gin.H{"status": "unauthorized"})
 		return
 	}
-
-	c.JSON(http.StatusOK, gin.H{"status": "you are logged in"})
+	session := sessions.Default(c)
+	session.Set("count", json.User)
+	session.Save()
+	
+	c.JSON(http.StatusOK, gin.H{"code : ": "Welcome "+jsonDb.User+ " you're connected"})
 }
 
 func Register(c *gin.Context) {
