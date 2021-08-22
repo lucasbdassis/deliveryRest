@@ -11,11 +11,9 @@ func ConfigRoutes(router *gin.Engine) *gin.Engine {
 	main := router.Group("api/v1")
 	{
 		store := cookie.NewStore([]byte("secret"))
-		store.Options(sessions.Options{MaxAge:   1}) // expire in a day
+		store.Options(sessions.Options{MaxAge: 1}) // expire in a day
 
 		product := main.Group("product")
-		product.Use(sessions.Sessions("mysession", store))
-		product.Use(controllers.LoginGet)
 
 		{
 			product.GET("/:id", controllers.GetProduct)
@@ -30,7 +28,7 @@ func ConfigRoutes(router *gin.Engine) *gin.Engine {
 
 		{
 			login.POST("/login", controllers.LoginPost)
-			login.GET("login/checked",controllers.LoginGet)
+			login.GET("login/checked", controllers.LoginGet)
 			login.POST("/register", controllers.Register)
 		}
 

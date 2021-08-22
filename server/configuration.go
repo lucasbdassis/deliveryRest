@@ -2,7 +2,6 @@ package server
 
 import (
 	"delivery/models"
-	"fmt"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
@@ -14,16 +13,13 @@ func GetApplication() models.Global {
 
 	var app models.Global
 
-
 	filename, err := filepath.Abs("./docker-compose.yml")
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(filepath.Dir(";"))
 	yamlfile, _ := ioutil.ReadFile(filename)
 
 	err = yaml.Unmarshal(yamlfile, &app)
-
 
 	return app
 }

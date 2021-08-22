@@ -10,18 +10,18 @@ import (
 	"net/http"
 )
 
-func LoginGet ( c *gin.Context){
+func LoginGet(c *gin.Context) {
 
 	session := sessions.Default(c)
-	fmt.Println("session: ",session)
+	fmt.Println("session: ", session)
 
 	v := session.Get("count")
-	if v == 4 {
+	if v == nil {
 		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"status": "NonAuthorized"})
 		return
 
 	}
-	fmt.Printf("%T",v)
+	fmt.Printf("%T", v)
 
 	c.JSON(200, gin.H{"Status": "Authorized"})
 
@@ -56,8 +56,8 @@ func LoginPost(c *gin.Context) {
 	session := sessions.Default(c)
 	session.Set("count", json.User)
 	session.Save()
-	
-	c.JSON(http.StatusOK, gin.H{"code : ": "Welcome "+jsonDb.User+ " you're connected"})
+
+	c.JSON(http.StatusOK, gin.H{"code : ": "Welcome " + jsonDb.User + " you're connected"})
 }
 
 func Register(c *gin.Context) {
